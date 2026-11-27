@@ -1011,30 +1011,7 @@
         promoBanner: "",
         outletShowcase: "./img/suasana-booth-exodrinks.jpg"
       },
-      news: [
-        {
-          id: "berita-opening-bali",
-          title: "Antusiasme Pelanggan Es Teler Sultan Cabang Bandung di Outlet Bali",
-          category: "Liputan Outlet",
-          date: "2026-11-20",
-          branch: "Seluruh Cabang Denpasar & Badung, Bali",
-          coverImage: "",
-          githubCoverPath: "./images/berita-opening-bali.jpg",
-          galleryImages: [],
-          content: "Kehadiran Exodrinks In Bali – Es Teler Sultan Cabang Bandung disambut hangat oleh masyarakat Denpasar, Kuta, hingga Kuta Utara. Racikan autentik kuah krimer gurih berpadu dengan potongan alpukat mentega, nangka manis, cincau, jely kelapa, sagu mutiara, serta varian toping daging durian asli yang difillet menjadi favorit baru pelepas dahaga di Pulau Dewata."
-        },
-        {
-          id: "berita-big-order-event",
-          title: "Layanan Big Order Acara Kantor & Komunitas: Gratis Ongkir & Bonus Cup",
-          category: "Event & Big Order",
-          date: "2026-11-25",
-          branch: "Cabang Waturenggong, Sesetan & Dalung",
-          coverImage: "",
-          githubCoverPath: "./images/berita-event-bali.jpg",
-          galleryImages: [],
-          content: "Exodrinks Bali melayani pemesanan jumlah besar (Big Order) untuk kebutuhan rapat kantor, arisan, acara kampus, hingga syukuran komunitas. Setiap pemesanan minimal 30 cup langsung mendapatkan fasilitas *FREE ONGKIR, dan setiap pembelian kelipatan 40 cup mendapatkan bonus *FREE 1 CUP segar siap santap."
-        }
-      ],
+      news: [],
       products: [
         {
           id: "ori-kecil",
@@ -1314,13 +1291,9 @@
     }
 
     function loadSavedNews() {
+      APP_DATA.news = [];
       try {
-        const raw = localStorage.getItem(NEWS_STORAGE_KEY);
-        if (!raw) return;
-        const parsed = JSON.parse(raw);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          APP_DATA.news = parsed;
-        }
+        localStorage.removeItem(NEWS_STORAGE_KEY);
       } catch (e) {}
     }
 
@@ -1436,6 +1409,12 @@
     function renderNewsCategoryFilters() {
       const container = document.getElementById("news-category-filters");
       if (!container) return;
+      if (APP_DATA.news.length === 0) {
+        container.innerHTML = "";
+        container.classList.add("hidden");
+        return;
+      }
+      container.classList.remove("hidden");
       const categories = ["Semua", ...new Set(APP_DATA.news.map(n => n.category))];
       container.innerHTML = categories.map(cat => {
         const isActive = cat === activeNewsCategory;
@@ -1473,7 +1452,7 @@
       if (filtered.length === 0) {
         grid.innerHTML = `
           <div class="col-span-full text-center py-12 rounded-3xl bg-baliPurple-50 border-2 border-dashed border-baliPurple-200">
-            <p class="font-extrabold text-baliPurple-950">Belum ada berita pada kategori ini</p>
+            <p class="font-extrabold text-baliPurple-950">${APP_DATA.news.length === 0 ? "Berita terbaru akan segera hadir." : "Belum ada berita pada kategori ini."}</p>
             ${isAdminUnlocked ? `<button onclick="requestAdminAction(() => openNewsEditorModal())" class="mt-3 bg-baliPurple-900 text-amber-300 font-extrabold px-5 py-2.5 rounded-full text-xs cursor-pointer">+ Tambah Berita & Foto Baru</button>` : ""}
           </div>
         `;
