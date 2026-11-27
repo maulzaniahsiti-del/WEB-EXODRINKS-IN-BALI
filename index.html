@@ -1082,7 +1082,8 @@
         { name: "Gatsu Timur", region: "Denpasar Timur", address: "Jl. Gatot Subroto Tim. No. 234, Tonja, Kec. Denpasar Timur, Kota Denpasar, Bali 80234" },
         { name: "Kubu Anyar", region: "Kec. Kuta", address: "Jl. Banjar Anyar No. 29e, Kuta, Kec. Kuta, Kabupaten Badung, Bali 80361" },
         { name: "Dalung", region: "Kuta Utara", address: "Depan Pertamina, Jl. Perum Dalung Permai, Dalung, Kec. Kuta Utara, Kabupaten Badung, Bali 80361" },
-        { name: "Kerobokan", region: "Kuta Utara", address: "Jl. Raya Kerobokan No. 31, Kerobokan Kaja, Kec. Kuta Utara, Kabupaten Badung, Bali 80361" }
+        { name: "Kerobokan", region: "Kuta Utara", address: "Jl. Raya Kerobokan No. 31, Kerobokan Kaja, Kec. Kuta Utara, Kabupaten Badung, Bali 80361" },
+        { name: "Tukad Yeh Aya", region: "Denpasar Selatan", address: "Jl. Tukad Yeh Aya no. 196, Denpasar Selatan, Denpasar Kota, Renon, Denpasar Selatan, Kota Denpasar, Bali 80239", mapUrl: "https://share.google/OP33zaSTDaoJdWzW2" }
       ]
     };
 
@@ -1309,7 +1310,12 @@
         if (!raw) return;
         const parsed = JSON.parse(raw);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          APP_DATA.outlets = parsed;
+          APP_DATA.outlets = [
+            ...parsed,
+            ...APP_DATA.outlets.filter(defaultOutlet =>
+              !parsed.some(savedOutlet => savedOutlet.name === defaultOutlet.name)
+            )
+          ];
         }
       } catch (e) {}
     }
@@ -1374,7 +1380,7 @@
       if (idxRaw !== "") {
         const idx = parseInt(idxRaw, 10);
         if (!Number.isNaN(idx) && APP_DATA.outlets[idx]) {
-          APP_DATA.outlets[idx] = newOutlet;
+          APP_DATA.outlets[idx] = { ...APP_DATA.outlets[idx], ...newOutlet };
         }
       } else {
         APP_DATA.outlets.push(newOutlet);
@@ -2086,7 +2092,7 @@
 
       emptyBox.classList.add("hidden");
       grid.innerHTML = filtered.map(o => {
-        const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("Exodrinks " + o.name + " " + o.address)}`;
+        const mapsUrl = o.mapUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("Exodrinks " + o.name + " " + o.address)}`;
         return `
           <article class="bg-white rounded-2xl p-5 border-2 border-baliPurple-100 hover:border-baliPurple-600 shadow-xs flex flex-col justify-between transition">
             <div>
