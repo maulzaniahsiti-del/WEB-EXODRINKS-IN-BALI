@@ -102,10 +102,10 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
       <div class="flex items-center gap-3">
         <a href="#" class="flex items-center gap-2.5 group focus:outline-none">
-          <div id="navbar-logo-container" class="h-11 w-28 flex items-center justify-center overflow-hidden rounded-lg bg-white group-hover:scale-105 transition">
-            <img src="./img/logo.jpeg" alt="Logo Exodrinks" class="h-11 w-28 object-cover rounded-lg bg-white" />
+          <div id="navbar-logo-container" class="h-11 w-28 flex items-center justify-center overflow-hidden rounded-lg group-hover:scale-105 transition">
+            <img src="./img/logo-white.png" alt="Logo Exodrinks" class="h-11 w-28 object-contain rounded-lg" />
           </div>
-          <span class="text-[11px] font-extrabold text-amber-300 tracking-wider uppercase">In Bali</span>
+          <span class="font-serif italic font-semibold text-sm text-white tracking-wide">In Bali</span>
         </a>
         <button onclick="requestAdminAction(() => openSlotNameAndUploadModal('logoBrand'))" title="Kelola Logo (Khusus Pengelola)" class="admin-only hidden xl:inline-flex items-center gap-1 bg-white/10 hover:bg-white/20 text-amber-300 border border-amber-300/30 px-2.5 py-1 rounded-full text-[11px] font-bold transition cursor-pointer">
           <span>✏️ Edit Logo</span>
@@ -591,10 +591,10 @@
       <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 pb-8 border-b border-white/10">
         <div>
           <div class="flex items-center gap-3">
-            <div id="footer-logo-container" class="h-11 w-28 flex items-center justify-center overflow-hidden rounded-lg bg-white">
-              <img src="./img/logo.jpeg" alt="Logo Exodrinks" class="h-11 w-28 object-cover rounded-lg bg-white" />
+            <div id="footer-logo-container" class="h-11 w-28 flex items-center justify-center overflow-hidden rounded-lg">
+              <img src="./img/logo-white.png" alt="Logo Exodrinks" class="h-11 w-28 object-contain rounded-lg" />
             </div>
-            <span class="text-amber-300 font-extrabold text-sm uppercase tracking-wider">In Bali</span>
+            <span class="font-serif italic font-semibold text-sm text-white tracking-wide">In Bali</span>
           </div>
           <p class="text-xs sm:text-sm text-purple-300 mt-2.5">
             <em>“The Authentic Indonesian Drinks”</em>
@@ -602,9 +602,6 @@
         </div>
 
         <div class="flex flex-wrap items-center gap-4 sm:gap-6 text-sm font-bold">
-          <a href="https://www.exodrinks.id" target="_blank" rel="noopener noreferrer" class="hover:text-amber-300 transition">
-            🌐 www.exodrinks.id
-          </a>
           <div class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
             <a href="https://wa.me/6281266910111" target="_blank" rel="noopener noreferrer" class="bg-emerald-500 hover:bg-emerald-400 text-white px-5 py-2.5 rounded-full font-extrabold shadow-md transition">
               WhatsApp: +62 812-6691-0111
@@ -988,6 +985,7 @@
     const OUTLETS_STORAGE_KEY = "exodrinks_bali_outlets_v1";
     const HERO_IMAGE_PATH = "./img/hero-es-teler-sultan-bandung.png";
     const PREVIOUS_HERO_IMAGE_PATH = "./img/Tangkapan Layar 2026-11-27 pukul 00.05.41.png";
+    const NAVBAR_LOGO_PATH = "./img/logo-white.png";
     const PHOTO_SLOTS_META = [
       { key: "logoBrand", label: "Logo Brand Exodrinks", defaultPath: "./img/logo.jpeg", productId: null },
       { key: "puraBg", label: "Background Pura Bali", defaultPath: "./img/Tangkapan Layar 2026-11-27 pukul 00.29.16.png", productId: null },
@@ -1202,7 +1200,11 @@ Bringing Freshness to Every Moment!`
     }
 
     function renderDefaultLogoMarkup(sizeClass = "h-11") {
-      return `<img src="./img/logo.jpeg" alt="Logo Exodrinks" class="${sizeClass} w-28 object-cover rounded-lg bg-white" />`;
+      return `<img src="${NAVBAR_LOGO_PATH}" alt="Logo Exodrinks" class="${sizeClass} w-28 object-contain rounded-lg" />`;
+    }
+
+    function renderNavbarLogoMarkup(src = NAVBAR_LOGO_PATH, alt = "Logo Exodrinks") {
+      return `<img src="${src}" alt="${alt}" class="h-11 w-28 object-contain rounded-lg" />`;
     }
 
     function loadSavedOriginalPhotos() {
@@ -1911,10 +1913,13 @@ Bringing Freshness to Every Moment!`
       const navLogo = document.getElementById("navbar-logo-container");
       const footerLogo = document.getElementById("footer-logo-container");
       if (APP_DATA.images.logoBrand) {
-        navLogo.innerHTML = `<img src="${APP_DATA.images.logoBrand}" alt="${slotLabelsState.logoBrand}" class="h-11 w-28 object-cover rounded-lg bg-white" />`;
-        footerLogo.innerHTML = `<img src="${APP_DATA.images.logoBrand}" alt="${slotLabelsState.logoBrand}" class="h-11 w-28 object-cover rounded-lg bg-white" />`;
+        const navLogoPath = APP_DATA.images.logoBrand === "./img/logo.jpeg"
+          ? NAVBAR_LOGO_PATH
+          : APP_DATA.images.logoBrand;
+        navLogo.innerHTML = renderNavbarLogoMarkup(navLogoPath, slotLabelsState.logoBrand);
+        footerLogo.innerHTML = renderNavbarLogoMarkup(navLogoPath, slotLabelsState.logoBrand);
       } else {
-        navLogo.innerHTML = renderDefaultLogoMarkup();
+        navLogo.innerHTML = renderNavbarLogoMarkup();
         footerLogo.innerHTML = renderDefaultLogoMarkup();
       }
 
