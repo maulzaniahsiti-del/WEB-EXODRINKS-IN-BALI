@@ -1015,6 +1015,27 @@
       },
       news: [
         {
+          id: "penarungan-festival-ii",
+          title: "EXODRINKS Hadir di PENARUNGAN FESTIVAL II",
+          category: "Event & Big Order",
+          date: "2026-11-20",
+          dateLabel: "20 - 22 Nov 2026",
+          branch: "PENARUNGAN FESTIVAL II",
+          githubCoverPath: "./img/penarungan-festival-ii.jpg",
+          coverImage: "./img/penarungan-festival-ii.jpg",
+          galleryImages: [
+            "./img/penarungan-festival-ii-night-selfie.png",
+            "./img/penarungan-festival-ii-customer-visit.png",
+            "./img/penarungan-festival-ii-booth-crowd.png",
+            "./img/penarungan-festival-ii-team-photo.png"
+          ],
+          content: `Senyum hangat, semangat kebersamaan, dan sajian terbaik untuk setiap pengunjung PENAFEST 2026. Bangga bisa menjadi bagian dari perayaan potensi lokal di Desa Wisata Penarungan! 🙌✨
+
+📍@penarunganfestival
+
+#Exodrinks #TimExodrinks #PENAFEST2026 #WisataBali`
+        },
+        {
           id: "mfest-2026",
           title: "EXODRINKS Hadir di MFEST 2026",
           category: "Event & Big Order",
@@ -1544,7 +1565,7 @@ Bringing Freshness to Every Moment!`
 
               <div class="p-6">
                 <div class="flex flex-wrap items-center gap-2 text-[11px] font-bold text-baliPurple-700">
-                  <span>📅 ${formatIndonesianDate(item.date)}</span>
+                  <span>📅 ${item.dateLabel || formatIndonesianDate(item.date)}</span>
                   ${item.branch ? `<span>•</span><span>📍 ${item.branch}</span>` : ""}
                 </div>
                 <h3 class="mt-2 text-lg sm:text-xl font-extrabold text-baliPurple-950 leading-snug line-clamp-2">
@@ -1703,11 +1724,13 @@ Bringing Freshness to Every Moment!`
       if (editId) {
         const idx = APP_DATA.news.findIndex(n => n.id === editId);
         if (idx !== -1) {
+          const existing = APP_DATA.news[idx];
           APP_DATA.news[idx] = {
-            ...APP_DATA.news[idx],
+            ...existing,
             title,
             category,
             date,
+            dateLabel: date === existing.date ? existing.dateLabel : "",
             branch,
             githubCoverPath,
             coverImage: draftNewsCover,
@@ -1763,7 +1786,7 @@ Bringing Freshness to Every Moment!`
             <span class="bg-baliPurple-900 text-amber-300 text-xs font-extrabold px-3.5 py-1 rounded-full uppercase">
               ${article.category}
             </span>
-            <span class="text-xs font-bold text-baliPurple-800">📅 ${formatIndonesianDate(article.date)}</span>
+            <span class="text-xs font-bold text-baliPurple-800">📅 ${article.dateLabel || formatIndonesianDate(article.date)}</span>
             ${article.branch ? `<span class="text-xs font-bold text-baliPurple-800">• 📍 ${article.branch}</span>` : ""}
           </div>
 
