@@ -986,10 +986,12 @@
     const SLOT_NAMES_STORAGE_KEY = "exodrinks_bali_slot_names_v1";
     const NEWS_STORAGE_KEY = "exodrinks_bali_news_v1";
     const OUTLETS_STORAGE_KEY = "exodrinks_bali_outlets_v1";
+    const HERO_IMAGE_PATH = "./img/hero-es-teler-sultan-bandung.png";
+    const PREVIOUS_HERO_IMAGE_PATH = "./img/Tangkapan Layar 2026-11-27 pukul 00.05.41.png";
     const PHOTO_SLOTS_META = [
       { key: "logoBrand", label: "Logo Brand Exodrinks", defaultPath: "./img/logo.jpeg", productId: null },
       { key: "puraBg", label: "Background Pura Bali", defaultPath: "./img/Tangkapan Layar 2026-11-27 pukul 00.29.16.png", productId: null },
-      { key: "heroMascot", label: "Es Teler Ori", defaultPath: "./img/Tangkapan Layar 2026-11-27 pukul 00.05.41.png", productId: null },
+      { key: "heroMascot", label: "Es Teler Ori", defaultPath: HERO_IMAGE_PATH, productId: null },
       { key: "oriKecilPhoto", label: "ES TELER ORI KECIL", defaultPath: "./img/Tangkapan Layar 2026-11-27 pukul 00.05.41.png", productId: "ori-kecil" },
       { key: "oriBesarPhoto", label: "ES TELER ORI BESAR", defaultPath: "./img/Tangkapan Layar 2026-11-27 pukul 00.05.41.png", productId: "ori-besar" },
       { key: "durianKecilPhoto", label: "ES TELER DURIAN KECIL", defaultPath: "./img/Tangkapan Layar 2026-11-27 pukul 00.43.10.png", productId: "durian-kecil" },
@@ -1003,7 +1005,7 @@
       images: {
         logoBrand: "./img/logo.jpeg",
         puraBg: "./img/Tangkapan Layar 2026-11-27 pukul 00.29.16.png",
-        heroMascot: "./img/Tangkapan Layar 2026-11-27 pukul 00.05.41.png",
+        heroMascot: HERO_IMAGE_PATH,
         oriKecilPhoto: "./img/Tangkapan Layar 2026-11-27 pukul 00.05.41.png",
         oriBesarPhoto: "./img/Tangkapan Layar 2026-11-27 pukul 00.05.41.png",
         durianKecilPhoto: "./img/Tangkapan Layar 2026-11-27 pukul 00.43.10.png",
@@ -1115,7 +1117,7 @@
     const githubPathsState = {
       logoBrand: "./img/logo.jpeg",
       puraBg: "./img/Tangkapan Layar 2026-11-27 pukul 00.29.16.png",
-      heroMascot: "./img/Tangkapan Layar 2026-11-27 pukul 00.05.41.png",
+      heroMascot: HERO_IMAGE_PATH,
       oriKecilPhoto: "./img/Tangkapan Layar 2026-11-27 pukul 00.05.41.png",
       oriBesarPhoto: "./img/Tangkapan Layar 2026-11-27 pukul 00.05.41.png",
       durianKecilPhoto: "./img/Tangkapan Layar 2026-11-27 pukul 00.43.10.png",
@@ -1183,6 +1185,13 @@
           }
         }
       } catch (e) {}
+
+      if (APP_DATA.images.heroMascot === PREVIOUS_HERO_IMAGE_PATH) {
+        APP_DATA.images.heroMascot = HERO_IMAGE_PATH;
+      }
+      if (githubPathsState.heroMascot === PREVIOUS_HERO_IMAGE_PATH) {
+        githubPathsState.heroMascot = HERO_IMAGE_PATH;
+      }
 
       syncSlotNamesToProducts();
     }
