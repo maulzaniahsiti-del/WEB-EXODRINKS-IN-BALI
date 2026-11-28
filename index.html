@@ -1013,7 +1013,30 @@
         promoBanner: "",
         outletShowcase: "./img/suasana-booth-exodrinks.jpg"
       },
-      news: [],
+      news: [
+        {
+          id: "mfest-2026",
+          title: "EXODRINKS Hadir di MFEST 2026",
+          category: "Event & Big Order",
+          date: "2026-11-07",
+          branch: "MFEST 2026 - Pantai Mertasari, Sanur",
+          githubCoverPath: "./img/mfest-2026-exodrinks.png",
+          coverImage: "./img/mfest-2026-exodrinks.png",
+          galleryImages: [],
+          content: `🎸 MFEST 2026, WE WERE THERE!💜
+
+Serunya MFEST 2026 makin lengkap dengan kehadiran EXODRINKS INDONESIA!
+
+Kali ini, kami hadir sebagai tenant F&B untuk ikut meramaikan suasana di Pantai Mertasari, Sanur. Mulai dari keseruan event, bertemu banyak orang baru, sampai berbagi kesegaran Es Teler Sultan dan minuman favorit untuk para pengunjung! 🥤✨
+
+Bukan cuma jualan, tapi juga kumpul, seru-seruan, dan menciptakan pengalaman baru bersama!
+
+Thank you MFEST 2026 for the amazing moments! See you at the next event! 🚀
+
+EXODRINKS INDONESIA
+Bringing Freshness to Every Moment!`
+        }
+      ],
       products: [
         {
           id: "ori-kecil",
@@ -1303,9 +1326,18 @@
     }
 
     function loadSavedNews() {
-      APP_DATA.news = [];
       try {
-        localStorage.removeItem(NEWS_STORAGE_KEY);
+        const raw = localStorage.getItem(NEWS_STORAGE_KEY);
+        if (!raw) return;
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) {
+          APP_DATA.news = [
+            ...parsed,
+            ...APP_DATA.news.filter(defaultNews =>
+              !parsed.some(savedNews => savedNews.id === defaultNews.id)
+            )
+          ];
+        }
       } catch (e) {}
     }
 
